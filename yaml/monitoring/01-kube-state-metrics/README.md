@@ -1,0 +1,4 @@
+- melakukan monitoring metric pada kubernetes seperti deployment, pod, service dan lainnya
+- source
+  - https://github.com/kubernetes/kube-state-metrics/tree/master/docs
+  - https://github.com/devopscube/kube-state-metrics-configs

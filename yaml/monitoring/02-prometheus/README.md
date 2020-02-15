@@ -1,0 +1,1 @@
+- menggunakan prometheus sebagai alat untuk mengumpulkan data dari exporter yang ada
