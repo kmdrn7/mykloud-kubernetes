@@ -1,0 +1,16 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: gcp-insomnia
+spec:
+  schedule: "1 * * * *"
+  jobTemplate:
+    spec:
+      successfulJobsHistoryLimit: 2
+      failedJobsHistoryLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: gcp-insomnia
+            image: kmdr7/insomnia
