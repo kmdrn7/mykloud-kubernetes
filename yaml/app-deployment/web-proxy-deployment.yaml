@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-proxy-deployment
+spec:
+  selector:
+    matchLabels:
+      app: web-proxy
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9113"
+      labels:
+        app: web-proxy
+    spec:
+      containers:
+      - name: web-proxy-app
+        image: kmdr7/web-proxy:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: metrics-config
+          mountPath: /etc/nginx/conf.d/metrics.conf
+          subPath: metrics.conf
+      - name: nginx-exporter
+        image: nginx/nginx-prometheus-exporter:0.5.0
+        ports:
+          - containerPort: 9113
+        env:
+          - name: SCRAPE_URI
+            value: "http://localhost:8989/metrics"
+          - name: TELEMETRY_PATH
+            value: "/metrics"
+          - name: NGINX_RETRIES
+            value: "10"
+      volumes:
+        - name: metrics-config
+          configMap:
+            name: nginx-metrics-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-proxy-service
+spec:
+  type: NodePort
+  selector:
+    app: web-proxy
+  ports:
+    - name: web-proxy-service
+      protocol: TCP
+      port: 80
+    - name: prom-mon
+      protocol: TCP
+      port: 9113
+      targetPort: 9113
