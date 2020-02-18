@@ -1,0 +1,47 @@
+image:
+  repository: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+  tag: "6.8.6"
+  pullPolicy: "IfNotPresent"
+
+securityContext:
+  enabled: true
+  runAsUser: 1000
+
+extraInitContainers: |
+  - name: file-permissions
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    command: ['/bin/bash', '-c']
+    args: ['chown -R elasticsearch:elasticsearch /usr/share/elasticsearch/data']
+
+cluster:
+  name: "elasticsearch"
+  env:
+    MINIMUM_MASTER_NODES: "2"
+
+client:
+  replicas: 1
+  serviceType: ClusterIP
+  heapSize: "512m"
+
+master:
+  replicas: 2
+  heapSize: "512m"
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    name: data
+    size: "5Gi"
+    storageClass: "managed-nfs-storage"
+
+data:
+  replicas: 1
+  heapSize: "1536m"
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    name: data
+    size: "5Gi"
+    storageClass: "managed-nfs-storage"
+  hooks:
+    drain:
+      enabled: false

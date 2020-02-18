@@ -1,0 +1,29 @@
+image:
+  repository: "docker.elastic.co/kibana/kibana-oss"
+  tag: "6.8.6"
+  pullPolicy: "IfNotPresent"
+
+# List of plugins to install using initContainer
+# NOTE : We notice that lower resource constraints given to the chart + plugins are likely not going to work well.
+plugins:
+  # set to true to enable plugins installation
+  enabled: true
+
+persistentVolumeClaim:
+  enabled: true
+  storageClass: "managed-nfs-storage"
+  accessModes:
+    - ReadWriteOnce
+  size: "5Gi"
+
+files:
+  kibana.yml:
+    server.name: "kibana"
+    server.host: "localhost"
+    elasticsearch.hosts: "http://elasticsearch-client:9200"
+
+service:
+  portName: kibana-gui
+  type: NodePort
+  nodePort: 31500
+  externalPort: 5601

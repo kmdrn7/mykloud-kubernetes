@@ -1,0 +1,35 @@
+image:
+  fluent_bit:
+    repository: fluent/fluent-bit
+    tag: 1.3.7
+  pullPolicy: Always
+
+backend:
+  type: es
+  es:
+    host: elasticsearch-client
+    port: 9200
+    index: kubernetes_cluster
+    type: flb_type
+    logstash_prefix: kubernetes_cluster
+    replace_dots: "On"
+    logstash_format: "On"
+    retry_limit: "False"
+    time_key: "@timestamp"
+    tls: "off"
+
+metrics:
+  enabled: false
+  service:
+    annotations:
+      prometheus.io/path: "/api/v1/metrics/prometheus"
+      prometheus.io/port: "2020"
+      prometheus.io/scrape: "true"
+    port: 2020
+    type: ClusterIP
+
+tolerations:
+  - key: "dedicated"
+    operator: "Equal"
+    value: "master"
+    effect: "NoSchedule"
