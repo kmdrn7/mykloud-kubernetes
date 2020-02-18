@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+  annotations:
+    reloader.stakater.com/auto: "true"
+    configmap.reloader.stakater.com/reload: "prometheus-rules-config"
+  labels:
+    app: prometheus-mon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-mon
+  template:
+    metadata:
+      labels:
+        app: prometheus-mon
+    spec:
+      serviceAccountName: prometheus
+      containers:
+      - name: prometheus-mon
+        image: prom/prometheus:v2.15.2
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/prometheus/prometheus.yml
+          subPath: prometheus.yml
+        - name: config-rules
+          mountPath: /etc/prometheus/prometheus.rules
+          subPath: prometheus.rules
+        ports:
+        - containerPort: 9090
+      volumes:
+      - name: config-volume
+        configMap:
+          name: prometheus-deployment-config
+      - name: config-rules
+        configMap:
+          name: prometheus-rules-config
+---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: prometheus-service
+  spec:
+    type: NodePort
+    selector:
+      app: prometheus-mon
+    ports:
+    - name: prometheus-ui
+      protocol: TCP
+      port: 9090
+      targetPort: 9090
