@@ -1,0 +1,31 @@
+image:
+  repository: docker.elastic.co/apm/apm-server-oss
+  tag: 6.8.6
+  pullPolicy: IfNotPresent
+
+# DaemonSet or Deployment
+kind: DaemonSet
+
+# Number of replicas when kind is Deployment
+replicaCount: 1
+
+service:
+  enabled: true
+  type: NodePort
+  port: 8200
+  portName: apm-server-svc
+  nodePort: 30820
+
+config:
+  apm-server:
+    host: "0.0.0.0:8200"
+  output.file:
+    enabled: false
+    path: "/usr/share/apm-server/data"
+    filename: apm-server
+    rotate_every_kb: 10000
+    number_of_files: 5
+  output.elasticsearch:
+    hosts: ["elasticsearch-client:9200"]
+    protocol: "http"
+
