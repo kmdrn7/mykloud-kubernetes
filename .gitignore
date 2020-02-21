@@ -1,2 +1,4 @@
 testing
+auto-deploy/terraform/credentials/**
+auto-deploy/ansible/inventory
 .vagrant
