@@ -1,4 +1,6 @@
 testing
 auto-deploy/terraform/credentials/**
+auto-deploy/terraform/*.tfstate
+auto-deploy/terraform/.terraform
 auto-deploy/ansible/inventory
 .vagrant
