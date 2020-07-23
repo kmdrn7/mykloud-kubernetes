@@ -21,15 +21,19 @@ spec:
           volumeMounts:
             - name: nfs-client-root
               mountPath: /persistentvolumes
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
           env:
             - name: PROVISIONER_NAME
               value: mykloud.lokal/nfs
             - name: NFS_SERVER
-              value: 192.168.10.210
+              value: 192.168.10.12
             - name: NFS_PATH
               value: /var/nfs-share
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 192.168.10.210
+            server: 192.168.10.12
             path: /var/nfs-share

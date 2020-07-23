@@ -11,7 +11,7 @@ systemctl status postfix
 curl -sfL https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sh -
 
 # install gitlab with external url
-EXTERNAL_URL="http://gitlab.mykloud.lokal" yum -y install gitlab-ce
+EXTERNAL_URL="https://gitlab.mykloud.lokal" yum -y install gitlab-ce
 
 # reload gitlab config
 gitlab-ctl reconfigure

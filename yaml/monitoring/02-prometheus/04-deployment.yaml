@@ -26,6 +26,10 @@ spec:
           mountPath: /etc/prometheus/
         - name: prometheus-storage-volume
           mountPath: /prometheus/
+        resources:
+          limits:
+            cpu: 100m
+            memory: 512Mi
       volumes:
       - name: prometheus-config-volume
         configMap:

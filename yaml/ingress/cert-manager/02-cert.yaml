@@ -1,0 +1,10 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: lest-selfsigned-cert
+spec:
+  dnsNames:
+    - web-1.mykloud.lokal
+  secretName: lets-selfsigned-cert-tls
+  issuerRef:
+    name: lets-selfsigned

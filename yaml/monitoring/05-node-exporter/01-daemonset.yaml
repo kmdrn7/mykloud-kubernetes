@@ -29,10 +29,10 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: 0.15
+              cpu: 150m
           securityContext:
             privileged: true
-          image: prom/node-exporter:v0.18.1
+          image: prom/node-exporter:v1.0.1
           args:
             - --path.procfs
             - /host/proc

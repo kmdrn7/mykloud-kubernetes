@@ -1,5 +1,5 @@
 # install utility for docker to run
-yum -y install yum-utils device-mapper-persistent-data lvm2
+yum -y install yum-utils device-mapper-persistent-data lvm2 2:nmap-ncat-6.40-19.el7.x86_64
 
 # add docker repo
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -13,7 +13,4 @@ systemctl start docker
 systemctl status docker
 
 # add vagrant user to docker group
-usermod -aG docker vagrant
-
-# add nc tools to check services
-yum -y install 2:nmap-ncat-6.40-19.el7.x86_64
+usermod -aG docker $USER

@@ -16,7 +16,7 @@ extraInitContainers: |
 cluster:
   name: "elasticsearch"
   env:
-    MINIMUM_MASTER_NODES: "2"
+    MINIMUM_MASTER_NODES: "1"
 
 client:
   replicas: 1
@@ -24,7 +24,7 @@ client:
   heapSize: "512m"
 
 master:
-  replicas: 2
+  replicas: 1
   heapSize: "512m"
   persistence:
     enabled: true

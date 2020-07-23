@@ -9,9 +9,6 @@ spec:
   replicas: 1
   template:
     metadata:
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9113"
       labels:
         app: web-1
     spec:
@@ -20,31 +17,17 @@ spec:
         image: kmdr7/web-landing-1:latest
         ports:
         - containerPort: 80
-        volumeMounts:
-        - name: metrics-config
-          mountPath: /etc/nginx/conf.d/metrics.conf
-          subPath: metrics.conf
-      - name: nginx-exporter
-        image: nginx/nginx-prometheus-exporter:0.5.0
-        ports:
-          - containerPort: 9113
-        env:
-          - name: SCRAPE_URI
-            value: "http://localhost:8989/metrics"
-          - name: TELEMETRY_PATH
-            value: "/metrics"
-          - name: NGINX_RETRIES
-            value: "10"
-      volumes:
-        - name: metrics-config
-          configMap:
-            name: nginx-metrics-config
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: web-1-service
 spec:
+  type: ClusterIP
   selector:
     app: web-1
   ports:
@@ -52,7 +35,25 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 80
-    - name: prom-mon
-      protocol: TCP
-      port: 9113
-      targetPort: 9113
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: web-1-ingress
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+    certmanager.k8s.io/issuer: lets-selfsigned
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+    - hosts:
+      - web-1.mykloud.lokal
+      secretName: lets-selfsigned-cert-tls
+  rules:
+  - host: web-1.mykloud.lokal
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: web-1-service
+          servicePort: 80
