@@ -1,4 +1,3 @@
----
 replicaCount: 1
 strategy:
   type: RollingUpdate
@@ -6,7 +5,7 @@ strategy:
     maxUnavailable: 0
 image:
   repository: chartmuseum/chartmuseum
-  tag: v0.11.0
+  tag: v0.12.0
   pullPolicy: IfNotPresent
 env:
   open:
@@ -15,7 +14,7 @@ env:
     CHART_POST_FORM_FIELD_NAME: chart
     # form field which will be queried for the provenance file content
     PROV_POST_FORM_FIELD_NAME: prov
-    # levels of nested repos for multitenancy.
+    # levels of nested repos for multitenancy. The default depth is 0 (singletenant server)
     DEPTH: 0
     # show debug messages
     DEBUG: false
@@ -24,7 +23,7 @@ env:
     # disable use of index-cache.yaml
     DISABLE_STATEFILES: false
     # disable Prometheus metrics
-    DISABLE_METRICS: false
+    DISABLE_METRICS: true
     # disable all routes prefixed with /api
     DISABLE_API: false
     # allow chart versions to be re-uploaded
@@ -45,8 +44,12 @@ env:
     CACHE_REDIS_DB: 0
     # enable bearer auth
     BEARER_AUTH: false
-  # POD_IP: status.podIP
+    # auth realm used for bearer auth
+    AUTH_REALM:
+    # auth service used for bearer auth
+    AUTH_SERVICE:
   field:
+    # POD_IP: status.podIP
   secret:
     # username for basic http authentication
     BASIC_AUTH_USER:
@@ -70,25 +73,36 @@ env:
     CACHE_REDIS_PASSWORD:
 
 deployment:
+  # Define scheduler name. Use of 'default' if empty
+  schedulerName: ""
   ## Chartmuseum Deployment annotations
   annotations: {}
   #   name: value
   labels: {}
   #   name: value
-  matchlabes: {}
+  matchlabels: {}
   #   name: value
 replica:
   ## Chartmuseum Replicas annotations
   annotations: {}
+  ## Read more about kube2iam to provide access to s3 https://github.com/jtblin/kube2iam
+  #   iam.amazonaws.com/role: role-arn
 service:
   servicename: chartmuseum
-  type: NodePort
-  nodePort: 31212
+  type: LoadBalancer
   externalTrafficPolicy: Local
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "2121"
+  externalPort: 8080
+  nodePort:
+  annotations: {}
   labels: {}
+
+serviceMonitor:
+  enabled: false
+  # namespace: prometheus
+  labels: {}
+  metricsPath: "/metrics"
+  # timeout: 60
+  # interval: 60
 
 resources:
   limits:
@@ -120,29 +134,24 @@ serviceAccount:
 
 # UID/GID 1000 is the default user "chartmuseum" used in
 # the container image starting in v0.8.0 and above. This
-# is required for local persistant storage. If your cluster
+# is required for local persistent storage. If your cluster
 # does not allow this, try setting securityContext: {}
 securityContext:
+  enabled: true
   fsGroup: 1000
+
+priorityClassName: ""
 
 nodeSelector: {}
 
 tolerations: []
 
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - kube-node-1
+affinity: {}
 
 persistence:
   enabled: false
   accessMode: ReadWriteOnce
-  size: 8Gi
+  size: 5Gi
   labels: {}
   #   name: value
   ## A manually managed Persistent Volume and Claim

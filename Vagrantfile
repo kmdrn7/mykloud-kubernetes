@@ -6,6 +6,17 @@ Vagrant.configure("2") do |config|
     cat /home/vagrant/.ssh/centos.pub >> /home/vagrant/.ssh/authorized_keys
   SHELL
 
+  config.vm.define "dns" do |dns|
+    dns.vm.box = "centos/7"
+    dns.vm.hostname = "dns"
+    dns.vm.network "private_network", ip: "192.168.10.251"
+    dns.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+      vb.customize ["modifyvm", :id, "--memory", "256"]
+      vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+    end
+  end
+
   config.vm.define "lb" do |lb|
     lb.vm.box = "centos/7"
     lb.vm.network "private_network", ip: "192.168.10.250"

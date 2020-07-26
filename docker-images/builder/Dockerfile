@@ -1,0 +1,14 @@
+FROM dtzar/helm-kubectl:3.2.4
+
+ENV SERVER https://kubernetes.tunnel.andikaahmad.com
+
+ENV USER_TOKEN eyJhbGciOiJSUzI1NiIsImtpZCI6InpnUEJBMlEyMFZPcHQzT2JKMnJiM0pxS2FaRHFQVE5aRFpYX2hTNW9wMWsifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImdpdGxhYi1zZXJ2aWNlLWFjY291bnQtdG9rZW4tYnZ6dmIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZ2l0bGFiLXNlcnZpY2UtYWNjb3VudCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImFkYzY5ZjM5LTUyNzUtNDJmMS1hOWZhLTNjMTJmNjI1ZjZjOCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmdpdGxhYi1zZXJ2aWNlLWFjY291bnQifQ.ky5VdRjqlPi2XmCnxKYZpdnpFDcbhWD_CJyQqi-HDktERQrgVk430m528ykyf6qUQm5gjuaKTrZYWNTlmxI2VC5n4_iXY6UmaKtlEZC2H5eoy5lRDKFL3oRfFNXTvB4fyJVPfixnzGFicowscE70ebxppf643TiemvVl3sU-gw3jJ6qxcAq_57a1Zc32DcGZzRklvZ205Fzjt39UYXT_7HjkR28kFvR4VbeoOPGTgUlOGt-EofB9Qv88M9JHgrwr5oKrHBJ81WWz1dEQjEMccNICn3AVUlsrhueJAgFeLD6b8CIXU9nRsut8W7z9FKhyuIJH9IVl5iHkRn1_-m7opw
+
+RUN apk update && apk add httpie
+
+RUN kubectl config set-cluster k8s --server="${SERVER}" \
+  && kubectl config set-credentials gitlab --token="${USER_TOKEN}" \
+  && kubectl config set-context default --cluster=k8s --user=gitlab \
+  && kubectl config use-context default
+
+  kubectl config set-credentials user --token="${USER_TOKEN}"

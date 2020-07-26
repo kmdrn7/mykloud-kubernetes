@@ -1,4 +1,0 @@
-mykloud.lokal.		    IN  SOA dns.mykloud.lokal. andika.mykloud.lokal. 2020021912 7200 3600 1209600 3600
-dns.mykloud.lokal.   	IN  A   172.17.0.3
-web.mykloud.lokal.  	IN  A   172.17.0.2
-web-1.mykloud.lokal.  IN  A   192.168.10.201
