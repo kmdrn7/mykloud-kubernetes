@@ -1,0 +1,27 @@
+---
+- name: Create logging namespaces
+  k8s:
+    api_version: v1
+    kind: Namespace
+    name: logging
+    state: present
+
+- name: Add Loki repository
+  command: helm repo add loki https://grafana.github.io/loki/charts
+
+- name: Updating helm repository
+  command: helm repo update
+
+- name: Send promtail config
+  template:
+    src: "{{ item }}.j2"
+    dest: "/tmp/{{ item }}"
+  loop:
+    - loki.yaml
+    - promtail.yaml
+
+- name: Install Promtail
+  command: helm upgrade --install promtail loki/promtail -f /tmp/promtail.yaml --namespace logging
+
+- name: Install LOKI
+  command: helm upgrade --install loki loki/loki -f /tmp/loki.yaml --namespace logging

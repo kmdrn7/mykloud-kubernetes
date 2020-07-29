@@ -1,0 +1,78 @@
+2020-07-28 14:33:26,685 p=116731 u=kmdr7 n=ansible | PLAY [kubernetes] ***********************************************************************************************************************************************************
+2020-07-28 14:33:26,697 p=116731 u=kmdr7 n=ansible | TASK [Gathering Facts] ******************************************************************************************************************************************************
+2020-07-28 14:33:29,802 p=116731 u=kmdr7 n=ansible | fatal: [192.168.10.21]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.10.21 port 22: No route to host", "unreachable": true}
+2020-07-28 14:33:29,806 p=116731 u=kmdr7 n=ansible | 	to retry, use: --limit @/work/code/future/mykloud/kubernetes/auto-deploy/ansible/retry/master.retry
+
+2020-07-28 14:33:29,807 p=116731 u=kmdr7 n=ansible | PLAY RECAP ******************************************************************************************************************************************************************
+2020-07-28 14:33:29,807 p=116731 u=kmdr7 n=ansible | 192.168.10.21              : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+2020-07-28 14:43:32,433 p=123089 u=kmdr7 n=ansible | PLAY [kubernetes] ********************************************************************
+2020-07-28 14:43:32,445 p=123089 u=kmdr7 n=ansible | TASK [Gathering Facts] ***************************************************************
+2020-07-28 14:43:36,443 p=123089 u=kmdr7 n=ansible | ok: [192.168.10.21]
+2020-07-28 14:43:36,451 p=123089 u=kmdr7 n=ansible | TASK [networking/metallb : Create metallb namespaces] ********************************
+2020-07-28 14:43:40,732 p=123089 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 14:43:40,792 p=123089 u=kmdr7 n=ansible | TASK [networking/metallb : Updating helm repository] *********************************
+2020-07-28 14:43:46,340 p=123089 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 14:43:46,362 p=123089 u=kmdr7 n=ansible | TASK [networking/metallb : Install MetalLB] ******************************************
+2020-07-28 14:43:48,814 p=123089 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 14:43:48,816 p=123089 u=kmdr7 n=ansible | PLAY RECAP ***************************************************************************
+2020-07-28 14:43:48,816 p=123089 u=kmdr7 n=ansible | 192.168.10.21              : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2020-07-28 15:11:55,851 p=126374 u=kmdr7 n=ansible | PLAY [kubernetes] ********************************************************************
+2020-07-28 15:11:55,864 p=126374 u=kmdr7 n=ansible | TASK [Gathering Facts] ***************************************************************
+2020-07-28 15:11:58,211 p=126374 u=kmdr7 n=ansible | ok: [192.168.10.21]
+2020-07-28 15:11:58,223 p=126374 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Create nginx-ingress namespaces] ********************
+2020-07-28 15:12:01,715 p=126374 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 15:12:01,724 p=126374 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Updating helm repository] ***************************
+2020-07-28 15:12:12,100 p=126374 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 15:12:12,110 p=126374 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Install Ingress NGINX] ******************************
+2020-07-28 15:15:00,287 p=126374 u=kmdr7 n=ansible |  [ERROR]: User interrupted execution
+
+2020-07-28 15:15:18,297 p=126892 u=kmdr7 n=ansible | PLAY [kubernetes] ********************************************************************
+2020-07-28 15:15:18,310 p=126892 u=kmdr7 n=ansible | TASK [Gathering Facts] ***************************************************************
+2020-07-28 15:15:20,525 p=126892 u=kmdr7 n=ansible | ok: [192.168.10.21]
+2020-07-28 15:15:20,536 p=126892 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Create nginx-ingress namespaces] ********************
+2020-07-28 15:15:22,488 p=126892 u=kmdr7 n=ansible | ok: [192.168.10.21]
+2020-07-28 15:15:22,497 p=126892 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Updating helm repository] ***************************
+2020-07-28 15:15:26,951 p=126892 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 15:15:26,959 p=126892 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Install Ingress NGINX] ******************************
+2020-07-28 15:15:28,019 p=126892 u=kmdr7 n=ansible | fatal: [192.168.10.21]: FAILED! => {"changed": true, "cmd": ["helm", "upgrade", "--install", "nginx-ingress", "mykloud/nginx-ingress", "--namespace", "ingress-nginx"], "delta": "0:00:00.344092", "end": "2020-07-28 08:15:27.951117", "msg": "non-zero return code", "rc": 1, "start": "2020-07-28 08:15:27.607025", "stderr": "Error: UPGRADE FAILED: \"nginx-ingress\" has no deployed releases", "stderr_lines": ["Error: UPGRADE FAILED: \"nginx-ingress\" has no deployed releases"], "stdout": "", "stdout_lines": []}
+2020-07-28 15:15:28,021 p=126892 u=kmdr7 n=ansible | 	to retry, use: --limit @/work/code/future/mykloud/kubernetes/auto-deploy/ansible/retry/master.retry
+
+2020-07-28 15:15:28,021 p=126892 u=kmdr7 n=ansible | PLAY RECAP ***************************************************************************
+2020-07-28 15:15:28,022 p=126892 u=kmdr7 n=ansible | 192.168.10.21              : ok=3    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2020-07-28 15:22:04,994 p=127855 u=kmdr7 n=ansible | PLAY [kubernetes] ********************************************************************
+2020-07-28 15:22:05,012 p=127855 u=kmdr7 n=ansible | TASK [Gathering Facts] ***************************************************************
+2020-07-28 15:22:07,995 p=127855 u=kmdr7 n=ansible | ok: [192.168.10.21]
+2020-07-28 15:22:08,003 p=127855 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Create nginx-ingress namespaces] ********************
+2020-07-28 15:22:11,467 p=127855 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 15:22:11,476 p=127855 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Updating helm repository] ***************************
+2020-07-28 15:22:21,743 p=127855 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 15:22:21,752 p=127855 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Install Ingress NGINX] ******************************
+2020-07-28 15:22:33,754 p=127855 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 15:22:33,756 p=127855 u=kmdr7 n=ansible | PLAY RECAP ***************************************************************************
+2020-07-28 15:22:33,756 p=127855 u=kmdr7 n=ansible | 192.168.10.21              : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2020-07-28 15:28:44,184 p=128709 u=kmdr7 n=ansible | PLAY [kubernetes] ********************************************************************
+2020-07-28 15:28:44,207 p=128709 u=kmdr7 n=ansible | TASK [Gathering Facts] ***************************************************************
+2020-07-28 15:28:46,201 p=128709 u=kmdr7 n=ansible | ok: [192.168.10.21]
+2020-07-28 15:28:46,211 p=128709 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Create nginx-ingress namespaces] ********************
+2020-07-28 15:28:48,682 p=128709 u=kmdr7 n=ansible | ok: [192.168.10.21]
+2020-07-28 15:28:48,702 p=128709 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Updating helm repository] ***************************
+2020-07-28 15:28:51,354 p=128709 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 15:28:51,372 p=128709 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Install Ingress NGINX] ******************************
+2020-07-28 15:29:03,757 p=128709 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 15:29:03,763 p=128709 u=kmdr7 n=ansible | PLAY RECAP ***************************************************************************
+2020-07-28 15:29:03,764 p=128709 u=kmdr7 n=ansible | 192.168.10.21              : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2020-07-28 15:40:14,245 p=130435 u=kmdr7 n=ansible | PLAY [kubernetes] ********************************************************************
+2020-07-28 15:40:14,276 p=130435 u=kmdr7 n=ansible | TASK [Gathering Facts] ***************************************************************
+2020-07-28 15:40:17,232 p=130435 u=kmdr7 n=ansible | ok: [192.168.10.21]
+2020-07-28 15:40:17,246 p=130435 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Create nginx-ingress namespaces] ********************
+2020-07-28 15:40:20,436 p=130435 u=kmdr7 n=ansible | ok: [192.168.10.21]
+2020-07-28 15:40:20,455 p=130435 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Add Ingress NGINX repository] ***********************
+2020-07-28 15:40:24,833 p=130435 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 15:40:24,861 p=130435 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Updating helm repository] ***************************
+2020-07-28 15:40:34,546 p=130435 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 15:40:34,579 p=130435 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Send ingress-nginx config] **************************
+2020-07-28 15:40:36,435 p=130435 u=kmdr7 n=ansible | changed: [192.168.10.21] => (item=ingress.yaml)
+2020-07-28 15:40:36,444 p=130435 u=kmdr7 n=ansible | TASK [networking/nginx-ingress : Install Ingress NGINX] ******************************
+2020-07-28 15:41:02,401 p=130435 u=kmdr7 n=ansible | changed: [192.168.10.21]
+2020-07-28 15:41:02,403 p=130435 u=kmdr7 n=ansible | PLAY RECAP ***************************************************************************
+2020-07-28 15:41:02,403 p=130435 u=kmdr7 n=ansible | 192.168.10.21              : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   

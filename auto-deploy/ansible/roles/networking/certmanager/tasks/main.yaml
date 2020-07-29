@@ -1,0 +1,23 @@
+---
+- name: Create nginx-ingress namespaces
+  k8s:
+    api_version: v1
+    kind: Namespace
+    name: ingress-nginx
+    state: present
+
+- name: Add Ingress NGINX repository
+  command: helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+- name: Updating helm repository
+  command: helm repo update
+
+- name: Send ingress-nginx config
+  template:
+    src: "{{ item }}.j2"
+    dest: "/tmp/{{ item }}"
+  loop:
+    - ingress.yaml
+
+- name: Install Ingress NGINX
+  command: helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx -f /tmp/ingress.yaml

@@ -1,0 +1,22 @@
+---
+- name: Create monitoring namespaces
+  k8s:
+    api_version: v1
+    kind: Namespace
+    name: monitoring
+    state: present
+
+- name: "Updating helm repository"
+  command: helm repo update
+
+- name: "Deploying: Kube State Metrics"
+  command: helm upgrade --install kube-state-metrics mykloud/kube-state-metrics
+
+- name: "Deploying: Node Exporter"
+  command: helm upgrade --install node-exporter mykloud/node-exporter
+
+- name: "Deploying: Prometheus"
+  command: helm upgrade --install prometheus mykloud/prometheus
+
+- name: "Deploying: Grafana"
+  command: helm upgrade --install grafana mykloud/grafana

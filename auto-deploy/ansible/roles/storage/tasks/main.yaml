@@ -1,0 +1,7 @@
+---
+- name: "Deploying: NFS Storage Dynamic Provisioning"
+  command: helm upgrade --install nfs-dynamic-provisioning mykloud/nfs-dynamic-provisioning
+
+- name: Wait for nfs provisioner is configured
+  pause:
+    minutes: "1"

@@ -1,0 +1,17 @@
+---
+- name: Create metallb namespaces
+  k8s:
+    api_version: v1
+    kind: Namespace
+    name: metallb-system
+    state: present
+
+- name: Updating helm repository
+  command: helm repo update
+
+- name: Install MetalLB
+  command: helm upgrade --install metallb mykloud/metallb --namespace metallb-system
+
+- name: Wait for metal lb is configured
+  pause:
+    minutes: "5"

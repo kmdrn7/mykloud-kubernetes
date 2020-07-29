@@ -1,0 +1,13 @@
+##################################################
+# Auto Provision Kubernetes Componens
+# Using Helm Charts
+##################################################
+---
+- hosts: kubernetes
+  become: true
+  roles:
+    - storage
+    - networking/metallb
+    - networking/nginx-ingress
+    - monitoring
+    - logging
