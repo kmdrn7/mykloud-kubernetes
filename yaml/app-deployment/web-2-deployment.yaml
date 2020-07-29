@@ -42,8 +42,8 @@ metadata:
   name: web-2-ingress
   annotations:
     ingress.kubernetes.io/ssl-redirect: "true"
-    certmanager.k8s.io/issuer: lets-selfsigned
-    kubernetes.io/ingress.class: "nginx"
+    # certmanager.k8s.io/issuer: lets-selfsigned
+    # kubernetes.io/ingress.class: "nginx"
 spec:
   tls:
     - hosts:
