@@ -307,12 +307,7 @@ controller:
 
     # type: LoadBalancer
 
-    type: NodePort
-    nodePorts:
-      http: 32080
-      https: 32443
-      tcp:
-        8080: 32808
+    type: LoadBalancer
     # nodePorts:
     #   http: ""
     #   https: ""
@@ -477,7 +472,7 @@ maxmindLicenseKey: ""
 ##
 defaultBackend:
   ##
-  enabled: true
+  enabled: false
 
   image:
     repository: k8s.gcr.io/defaultbackend-amd64
