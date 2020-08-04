@@ -13,4 +13,4 @@ name: gitlab-runner
 sources:
 - https://hub.docker.com/r/gitlab/gitlab-runner/
 - https://docs.gitlab.com/runner/
-version: 0.19.2
+version: 0.19.1
