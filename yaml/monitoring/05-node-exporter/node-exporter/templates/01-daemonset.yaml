@@ -29,7 +29,8 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: 150m
+              cpu: 100m
+              memory: 128Mi
           securityContext:
             privileged: true
           image: prom/node-exporter:v1.0.1
