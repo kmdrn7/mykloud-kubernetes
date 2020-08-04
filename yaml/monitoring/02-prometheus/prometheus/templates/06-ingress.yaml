@@ -5,13 +5,11 @@ metadata:
   namespace: monitoring
   annotations:
     ingress.kubernetes.io/ssl-redirect: "true"
-    certmanager.k8s.io/issuer: lets-selfsigned
     kubernetes.io/ingress.class: "nginx"
 spec:
   tls:
     - hosts:
       - prometheus.mykloud.lokal
-      secretName: lets-selfsigned-cert-tls
   rules:
   - host: prometheus.mykloud.lokal
     http:
