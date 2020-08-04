@@ -50,4 +50,15 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define "node-2" do |node|
+    node.vm.box = "centos/7"
+    node.vm.hostname = "node-2"
+    node.vm.network "private_network", ip: "192.168.10.24"
+    node.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+      vb.customize ["modifyvm", :id, "--memory", "2048"]
+      vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+    end
+  end
+
 end
