@@ -22,16 +22,19 @@ spec:
           containerPort: 3000
         resources:
           limits:
-            memory: "1Gi"
-            cpu: "512m"
+            memory: "512Mi"
+            cpu: "175m"
           requests:
-            memory: "500Mi"
-            cpu: "256m"
+            memory: "256Mi"
+            cpu: "128m"
         volumeMounts:
         - mountPath: /var/lib/grafana
           name: grafana-storage
         - mountPath: /etc/grafana/provisioning/datasources
           name: grafana-datasources
+          readOnly: false
+        - mountPath: /etc/grafana/provisioning/dashboards
+          name: grafana-dashboards
           readOnly: false
       volumes:
       - name: grafana-storage
@@ -41,3 +44,7 @@ spec:
         configMap:
           defaultMode: 420
           name: grafana-datasources
+      - name: grafana-dashboards
+        configMap:
+          defaultMode: 420
+          name: grafana-dashboards
