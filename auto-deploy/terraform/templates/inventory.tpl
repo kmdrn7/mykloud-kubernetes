@@ -1,5 +1,1 @@
-[managers]
-${managers}
-
-[workers]
-${workers}
+${masters}

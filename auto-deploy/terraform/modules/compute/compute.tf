@@ -1,31 +1,33 @@
-resource "google_compute_instance" "kube-master-1" {
-  name          = "kube-master-1"
-  machine_type  = "n1-standard-1"
-  zone          = "${var.region_zone}"
+resource "google_compute_instance" "compute" {
+  name          = var.node_name
+  machine_type  = var.node_type
+  zone          = var.node_region_zone
   tags          = ["kube-cluster"]
 
   boot_disk {
     initialize_params {
-      image = "centos-cloud/centos-7-v20200205"
+      image = var.node_image
     }
   }
 
   network_interface {
-    network = "${google_compute_network.kubernetes.name}"
+    network = var.node_network
     access_config {
       # Ephemeral
     }
   }
 
+  can_ip_forward = true
+
   metadata = {
-    ssh-keys = "root:${file("${var.public_key_path}")}"
+    ssh-keys = "root:${file(var.public_key_path)}"
   }
 
   metadata_startup_script = <<SCRIPT
 adduser -m linux1-user
 mkdir -p /home/linux1-user/.ssh
 cat <<EOF > /home/linux1-user/.ssh/authorized_keys
-${chomp(file("${var.public_key_path}"))}
+${chomp(file(var.public_key_path))}
 EOF
 chown -R linux1-user:linux1-user /home/linux1-user/.ssh
 chmod 700 /home/linux1-user/.ssh
@@ -37,15 +39,15 @@ SCRIPT
     connection {
       type        = "ssh"
       user        = "linux1-user"
-      host		    = "${google_compute_instance.kube-master-1.network_interface.0.access_config.0.nat_ip}"
-      private_key = "${file("${var.private_key_path}")}"
+      host		    = google_compute_instance.compute.network_interface.0.access_config.0.nat_ip
+      private_key = file(var.private_key_path)
       agent       = false
     }
   }
 
   scheduling {
     automatic_restart = false
-    preemptible       = true
+    preemptible       = var.is_preemptible
   }
 
   service_account {
