@@ -29,11 +29,11 @@ spec:
             - name: PROVISIONER_NAME
               value: mykloud.lokal/nfs
             - name: NFS_SERVER
-              value: 192.168.10.12
+              value: 10.174.0.12
             - name: NFS_PATH
               value: /var/nfs-share
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 192.168.10.12
+            server: 10.174.0.12
             path: /var/nfs-share

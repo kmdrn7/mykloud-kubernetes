@@ -36,24 +36,27 @@ spec:
       port: 80
       targetPort: 80
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: web-2-ingress
   annotations:
     ingress.kubernetes.io/ssl-redirect: "true"
-    # certmanager.k8s.io/issuer: lets-selfsigned
-    # kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    kubernetes.io/ingress.class: "nginx"
 spec:
   tls:
     - hosts:
-      - web-2.mykloud.lokal
-      secretName: lets-selfsigned-cert-tls
+      - web-2.mykloud.andikaahmad.com
+      secretName: letsencrypt-staging-issuer
   rules:
-  - host: web-2.mykloud.lokal
+  - host: web-2.mykloud.andikaahmad.com
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: web-2-service
-          servicePort: 80
+          service:
+            name: web-2-service
+            port:
+              number: 80
