@@ -1,7 +1,7 @@
 apiServer:
   certSANs:
-    - "192.168.10.21"
-    - "kubernetes.mykloud.lokal"
+    - "35.221.84.16"
+    - "kubernetes.andikaahmad.com"
   extraArgs:
     authorization-mode: Node,RBAC
   timeoutForControlPlane: 4m0s
@@ -16,7 +16,7 @@ etcd:
     dataDir: /var/lib/etcd
 imageRepository: k8s.gcr.io
 kind: ClusterConfiguration
-kubernetesVersion: v1.18.0
+kubernetesVersion: v1.19.0
 networking:
   dnsDomain: cluster.local
   podSubnet: 10.244.0.0/16

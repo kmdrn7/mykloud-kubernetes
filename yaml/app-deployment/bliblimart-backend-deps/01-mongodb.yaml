@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongo
-  namespace: bliblimart-backend
+  namespace: bliblimart
 spec:
   serviceName: mongodb
   replicas: 1
@@ -44,7 +44,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongodb
-  namespace: bliblimart-backend
+  namespace: bliblimart
   labels:
     app.kubernetes.io/name: mongo
 spec:

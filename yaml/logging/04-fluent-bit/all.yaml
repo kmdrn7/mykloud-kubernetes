@@ -13,11 +13,11 @@ service:
 
 resources:
   limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 128m
+    memory: 250Mi
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 128m
+    memory: 250Mi
 
 tolerations:
   - key: node-role.kubernetes.io/master
@@ -28,7 +28,7 @@ tolerations:
 config:
   service: |
     [SERVICE]
-        Flush 1
+        Flush 2
         Daemon Off
         Log_Level info
         Parsers_File parsers.conf
@@ -46,6 +46,7 @@ config:
         Tag kube.*
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
+        Refresh_Interval 10
 
     [INPUT]
         Name systemd
@@ -58,7 +59,7 @@ config:
     [FILTER]
         Name kubernetes
         Match kube.*
-        Merge_Log On
+        Merge_Log Off
         Keep_Log Off
         K8S-Logging.Parser On
         K8S-Logging.Exclude On

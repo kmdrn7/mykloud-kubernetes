@@ -1,47 +1,39 @@
-image:
-  repository: "docker.elastic.co/elasticsearch/elasticsearch-oss"
-  tag: "6.8.6"
-  pullPolicy: "IfNotPresent"
+clusterName: "mykloud"
+roles:
+  master: "true"
+  ingest: "true"
+  data: "true"
+  remote_cluster_client: "true"
+  ml: "false"
 
-securityContext:
-  enabled: true
-  runAsUser: 1000
+replicas: 1
+minimumMasterNodes: 1
+clusterHealthCheckParams: 'wait_for_status=yellow&timeout=1s'
 
-extraInitContainers: |
-  - name: file-permissions
-    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-    command: ['/bin/bash', '-c']
-    args: ['chown -R elasticsearch:elasticsearch /usr/share/elasticsearch/data']
+esMajorVersion: "7"
+image: "docker.elastic.co/elasticsearch/elasticsearch"
+imageTag: "7.10.2"
+imagePullPolicy: "IfNotPresent"
+esJavaOpts: "-Xmx2g -Xms2g"
 
-cluster:
-  name: "elasticsearch"
-  env:
-    MINIMUM_MASTER_NODES: "1"
+resources:
+  requests:
+    cpu: "1000m"
+    memory: "3Gi"
+  limits:
+    cpu: "1000m"
+    memory: "3Gi"
 
-client:
-  replicas: 1
-  serviceType: ClusterIP
-  heapSize: "512m"
+volumeClaimTemplate:
+  storageClassName: "managed-nfs-storage"
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: 5Gi
 
-master:
-  replicas: 1
-  heapSize: "512m"
-  persistence:
-    enabled: true
-    accessMode: ReadWriteOnce
-    name: data
-    size: "5Gi"
-    storageClass: "managed-nfs-storage"
+rbac:
+  create: true
 
-data:
-  replicas: 1
-  heapSize: "1536m"
-  persistence:
-    enabled: true
-    accessMode: ReadWriteOnce
-    name: data
-    size: "5Gi"
-    storageClass: "managed-nfs-storage"
-  hooks:
-    drain:
-      enabled: false
+protocol: http
+httpPort: 9200
+transportPort: 9300

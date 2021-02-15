@@ -27,7 +27,7 @@ kind: Service
 metadata:
   name: web-1-service
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: web-1
   ports:
@@ -36,24 +36,24 @@ spec:
       port: 80
       targetPort: 80
 ---
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: web-1-ingress
-  annotations:
-    ingress.kubernetes.io/ssl-redirect: "true"
-    certmanager.k8s.io/issuer: lets-selfsigned
-    kubernetes.io/ingress.class: "nginx"
-spec:
-  tls:
-    - hosts:
-      - web-1.mykloud.lokal
-      secretName: lets-selfsigned-cert-tls
-  rules:
-  - host: web-1.mykloud.lokal
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: web-1-service
-          servicePort: 80
+# apiVersion: networking.k8s.io/v1beta1
+# kind: Ingress
+# metadata:
+#   name: web-1-ingress
+#   annotations:
+#     ingress.kubernetes.io/ssl-redirect: "true"
+#     certmanager.k8s.io/issuer: lets-selfsigned
+#     kubernetes.io/ingress.class: "nginx"
+# spec:
+#   tls:
+#     - hosts:
+#       - web-1.mykloud.lokal
+#       secretName: lets-selfsigned-cert-tls
+#   rules:
+#   - host: web-1.mykloud.lokal
+#     http:
+#       paths:
+#       - path: /
+#         backend:
+#           serviceName: web-1-service
+#           servicePort: 80
