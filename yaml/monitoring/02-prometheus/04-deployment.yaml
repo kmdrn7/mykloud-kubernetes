@@ -27,9 +27,12 @@ spec:
         - name: prometheus-storage-volume
           mountPath: /prometheus/
         resources:
+          request:
+            cpu: {{.Values.resources.requests.cpu}}
+            memory: {{.Values.resources.requests.memory}}
           limits:
-            cpu: 100m
-            memory: 512Mi
+            cpu: {{.Values.resources.limits.cpu}}
+            memory: {{.Values.resources.limits.memory}}
       volumes:
       - name: prometheus-config-volume
         configMap:
