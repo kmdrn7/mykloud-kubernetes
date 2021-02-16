@@ -11,5 +11,5 @@ resources:
 
 nfs:
   provisioner_name: mykloud.lokal/nfs
-  server: 10.174.0.12
+  server: 10.174.0.31
   path: /var/nfs-share
