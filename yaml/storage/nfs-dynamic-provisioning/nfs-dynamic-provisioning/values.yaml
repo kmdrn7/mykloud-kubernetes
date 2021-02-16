@@ -1,3 +1,15 @@
 # Default values for nfs-dynamic-provisioning.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+
+nfs:
+  provisioner_name: mykloud.lokal/nfs
+  server: 10.174.0.12
+  path: /var/nfs-share
