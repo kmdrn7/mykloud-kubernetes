@@ -13,6 +13,10 @@ resource "google_compute_instance" "compute" {
   network_interface {
     network = var.node_network
     network_ip = var.node_ip
+
+    access_config {
+      nat_ip = var.node_ip_public
+    }
   }
 
   can_ip_forward = true
@@ -37,12 +41,8 @@ SCRIPT
     connection {
       type        = "ssh"
       user        = "linux1-user"
-      host		    = google_compute_instance.compute.network_interface.0.network_ip
+      host		    = google_compute_instance.compute.network_interface.0.access_config.0.nat_ip
       private_key = file(var.private_key_path)
-      bastion_user = "linux1-user"
-      bastion_host = "34.84.99.128"
-      bastion_port = 22
-      bastion_private_key = file(var.private_key_path)
       agent       = false
     }
   }

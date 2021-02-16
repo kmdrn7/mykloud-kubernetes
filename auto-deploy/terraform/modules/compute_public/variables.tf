@@ -40,7 +40,6 @@ variable "node_ip" {
 variable "node_ip_public" {
   description = "node ip public"
   type = string
-  default = ""
 }
 
 variable "public_key_path" {

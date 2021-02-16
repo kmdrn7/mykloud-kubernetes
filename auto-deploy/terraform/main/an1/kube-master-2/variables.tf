@@ -3,6 +3,11 @@ variable "node_network" {
   type = string
 }
 
+variable "node_ip" {
+  description = "node ip"
+  type = string
+}
+
 variable "node_preemptible" {
   description = "node preemptible"
   type = bool

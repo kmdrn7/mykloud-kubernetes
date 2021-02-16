@@ -7,6 +7,7 @@ module "kube-worker-2" {
   node_region = "asia-northeast2"
   node_region_zone = "asia-northeast2-b"
   node_network = var.node_network
+  node_ip = var.node_ip
   is_preemptible = var.node_preemptible
   inventory_name = "worker"
 }
