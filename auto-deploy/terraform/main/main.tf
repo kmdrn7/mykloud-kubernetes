@@ -3,6 +3,16 @@ module "kube-master-1" {
   node_network = google_compute_network.kubernetes.name
 }
 
+module "kube-master-2" {
+  source = "./an1/kube-master-2"
+  node_network = google_compute_network.kubernetes.name
+}
+
+module "kube-master-3" {
+  source = "./an1/kube-master-3"
+  node_network = google_compute_network.kubernetes.name
+}
+
 module "kube-worker-1" {
   source = "./an2/kube-worker-1"
   node_network = google_compute_network.kubernetes.name
@@ -18,14 +28,16 @@ module "kube-lb" {
   node_network = google_compute_network.kubernetes.name
 }
 
-# module "nfs-server" {
-#   source = "./an2/nfs-server"
-#   node_network = google_compute_network.kubernetes.name
-# }
+module "kube-tools-1" {
+  source = "./an2/kube-tools-1"
+  node_network = google_compute_network.kubernetes.name
+}
 
 resource "null_resource" "generate_ansible_inventory" {
   depends_on = [
     module.kube-master-1,
+    module.kube-master-2,
+    module.kube-master-3,
     module.kube-worker-1,
     module.kube-worker-2,
     module.kube-lb,
