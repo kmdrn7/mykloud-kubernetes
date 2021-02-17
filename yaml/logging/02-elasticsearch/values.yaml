@@ -18,11 +18,11 @@ esJavaOpts: "-Xmx2g -Xms2g"
 
 resources:
   requests:
-    cpu: "1000m"
-    memory: "3Gi"
+    cpu: "1"
+    memory: "2500Mi"
   limits:
-    cpu: "1000m"
-    memory: "3Gi"
+    cpu: "1"
+    memory: "2500Mi"
 
 volumeClaimTemplate:
   storageClassName: "managed-nfs-storage"
