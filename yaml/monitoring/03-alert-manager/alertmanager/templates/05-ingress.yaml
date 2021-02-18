@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: alertmanager-ingress
+  namespace: monitoring
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Butuh Autentikasi Dulu Bossss'
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+    - hosts:
+      - alertmanager.mykloud.andikaahmad.com
+      secretName: letsencrypt-prod-issuer
+  rules:
+  - host: alertmanager.mykloud.andikaahmad.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: alertmanager
+          servicePort: 9093
