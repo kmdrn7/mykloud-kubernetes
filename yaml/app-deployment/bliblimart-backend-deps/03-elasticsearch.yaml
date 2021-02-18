@@ -1,4 +1,4 @@
-clusterName: "bliblimart"
+clusterName: "blimart"
 roles:
   master: "true"
   ingest: "true"
@@ -18,10 +18,10 @@ esJavaOpts: "-Xmx512m -Xms512m"
 
 resources:
   requests:
-    cpu: "0.5"
+    cpu: "250m"
     memory: "1Gi"
   limits:
-    cpu: "0.5"
+    cpu: "250m"
     memory: "1Gi"
 
 volumeClaimTemplate:
@@ -29,7 +29,7 @@ volumeClaimTemplate:
   accessModes: [ "ReadWriteOnce" ]
   resources:
     requests:
-      storage: 1Gi
+      storage: 5Gi
 
 rbac:
   create: true

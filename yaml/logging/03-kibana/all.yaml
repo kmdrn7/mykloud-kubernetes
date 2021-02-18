@@ -8,10 +8,10 @@ imageTag: "7.10.2"
 resources:
   requests:
     cpu: "512m"
-    memory: "1500Mi"
+    memory: "1000Mi"
   limits:
     cpu: "512m"
-    memory: "1500Mi"
+    memory: "1000Mi"
 
 tolerations:
   - key: node-role.kubernetes.io/master

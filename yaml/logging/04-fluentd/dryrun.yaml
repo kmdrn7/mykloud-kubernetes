@@ -256,10 +256,10 @@ spec:
           resources:
               limits:
                 cpu: 100m
-                memory: 128Mi
+                memory: 225Mi
               requests:
                 cpu: 100m
-                memory: 128Mi
+                memory: 225Mi
           volumeMounts:
             - mountPath: /var/log
               name: varlog
