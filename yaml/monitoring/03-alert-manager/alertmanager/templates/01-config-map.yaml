@@ -16,5 +16,5 @@ data:
     receivers:
       - name: slack
         slack_configs:
-          - api_url: https://hooks.slack.com/services/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
+          - api_url: https://hooks.slack.com/services/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
             channel: '#kubernetes-alertmanager'
