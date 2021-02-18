@@ -5,7 +5,5 @@ metadata:
   namespace: monitoring
 data:
   slack.tmpl: |-
-    {{ define "slack.devops.text" }}
-    {{range .Alerts}}{{.Annotations.DESCRIPTION}}
-    {{end}}
-    {{ end }}
+    {{range .Alerts}}{{.Annotations.title}}{{end}}
+    {{range .Alerts}}{{.Annotations.description}}{{end}}
