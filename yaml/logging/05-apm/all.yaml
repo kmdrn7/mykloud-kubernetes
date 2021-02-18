@@ -1,0 +1,25 @@
+image: "docker.elastic.co/apm/apm-server"
+imageTag: "7.10.2"
+imagePullPolicy: "IfNotPresent"
+replicas: 1
+
+resources:
+    requests:
+      cpu: "128m"
+      memory: "150Mi"
+    limits:
+      cpu: "1000m"
+      memory: "512Mi"
+
+tolerations:
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
+
+apmConfig:
+  apm-server.yml: |
+    apm-server:
+      host: "0.0.0.0:8200"
+    queue: {}
+    output.elasticsearch:
+      hosts: ["http://mykloud-master:9200"]
