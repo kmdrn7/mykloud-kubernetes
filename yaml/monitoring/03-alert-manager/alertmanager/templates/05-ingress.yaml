@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
       - alertmanager.mykloud.andikaahmad.com
-      secretName: letsencrypt-prod-issuer
+      secretName: letsencrypt-prod-alertmanager
   rules:
   - host: alertmanager.mykloud.andikaahmad.com
     http:
