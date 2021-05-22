@@ -24,6 +24,25 @@ spec:
           limits:
             cpu: 100m
             memory: 128Mi
+        volumeMounts:
+        - name: storage-volume
+          mountPath: /prometheus/
+      volumes:
+        - name: storage-volume
+          persistentVolumeClaim:
+            claimName: web2-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: web2-storage
+spec:
+  storageClassName: managed-nfs-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: Service
